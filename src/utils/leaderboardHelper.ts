@@ -31,6 +31,22 @@ const SEED_SCORES: Record<GameType, Array<Omit<LeaderboardEntry, 'id' | 'gameId'
     { username: 'CardFlipper 🃏', score: 1120, isAI: true },
     { username: 'ElephantMemory 🐘', score: 750, isAI: true },
   ],
+  minesweeper: [
+    { username: 'SweeperPro 💣', score: 920, isAI: true },
+    { username: 'BombDefuser 🚨', score: 810, isAI: true },
+    { username: 'GridSeeker 🔍', score: 650, isAI: true },
+    { username: 'SafeStep 🥾', score: 510, isAI: true },
+    { username: 'LuckyClick 🍀', score: 380, isAI: true },
+    { username: 'LogicMaster 🧠', score: 240, isAI: true },
+  ],
+  spider: [
+    { username: 'SolitaireGuru 🃏', score: 1120, isAI: true },
+    { username: 'CardMaster 👑', score: 980, isAI: true },
+    { username: 'SpiderSlayer 🕷️', score: 840, isAI: true },
+    { username: 'SuitDealer ♣️', score: 710, isAI: true },
+    { username: 'StackBuilder 🏗️', score: 550, isAI: true },
+    { username: 'DeckFlipper 🔄', score: 420, isAI: true },
+  ],
 };
 
 function generateId(): string {
@@ -114,6 +130,8 @@ export function clearLeaderboard(gameId?: GameType): void {
     localStorage.removeItem('arcade_leaderboard_snake');
     localStorage.removeItem('arcade_leaderboard_game2048');
     localStorage.removeItem('arcade_leaderboard_memory');
+    localStorage.removeItem('arcade_leaderboard_minesweeper');
+    localStorage.removeItem('arcade_leaderboard_spider');
   }
   initializeLeaderboards();
 }

@@ -17,12 +17,16 @@ const GAME_NAMES: Record<GameType, string> = {
   snake: '贪吃蛇大作战',
   game2048: '2048 智力拼图',
   memory: '脑力卡片翻翻乐',
+  minesweeper: '经典扫雷',
+  spider: '蜘蛛纸牌',
 };
 
 const GAME_COLORS: Record<GameType, { text: string; bg: string; border: string }> = {
   snake: { text: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
   game2048: { text: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
   memory: { text: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
+  minesweeper: { text: 'text-rose-400', bg: 'bg-rose-500/10', border: 'border-rose-500/20' },
+  spider: { text: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20' },
 };
 
 export default function Leaderboard({ currentUsername, onResetFinished }: LeaderboardProps) {
@@ -36,23 +40,18 @@ export default function Leaderboard({ currentUsername, onResetFinished }: Leader
       const snakeScores = getLeaderboard('snake');
       const game2048Scores = getLeaderboard('game2048');
       const memoryScores = getLeaderboard('memory');
-      // Mix all scores, sorting by absolute score doesn't make sense unless we normalize,
-      // so we will just group them or list them. Or better: we combine and sort them,
-      // or we list them categorized!
-      // Let's combine them and sort by date, or rank each.
-      // Actually, combining them directly and sorting by date makes a great "Recent Activities/High Scores" board!
-      // Let's sort them by score descending if they are categorized, but for 'all', we sort by date or simply merge them
-      // with metadata.
-      // Let's sort combined scores by score value, but wait: 2048 scores are in tens of thousands, snake is around 100, memory is around 2000.
-      // So sorting them together directly is a bit strange, but we can display them nicely!
-      // Let's sort them by date (newest first) or group them.
-      // A great approach is: if 'all' is selected, we combine all scores but sort them by score descending anyway (users love seeing huge 2048 numbers),
-      // OR we display three mini tables side-by-side! Let's display categorized tabs or a beautiful consolidated list sorted by date.
-      // Actually, sorting by date makes 'All' a "Recent Record Log", which is fantastic! Let's list records sorted by newest date first.
-      const combined = [...snakeScores, ...game2048Scores, ...memoryScores];
-      // Simple parse dates or sort
+      const minesweeperScores = getLeaderboard('minesweeper');
+      const spiderScores = getLeaderboard('spider');
+      
+      const combined = [
+        ...snakeScores,
+        ...game2048Scores,
+        ...memoryScores,
+        ...minesweeperScores,
+        ...spiderScores
+      ];
+      
       setScores(combined.sort((a, b) => {
-        // Fallback sorting, let's just use simple date sorting or index
         return b.date.localeCompare(a.date);
       }));
     } else {
@@ -161,7 +160,7 @@ export default function Leaderboard({ currentUsername, onResetFinished }: Leader
         >
           ⏱️ 最近动态
         </button>
-        {(['snake', 'game2048', 'memory'] as GameType[]).map((gameId) => (
+        {(['snake', 'game2048', 'memory', 'minesweeper', 'spider'] as GameType[]).map((gameId) => (
           <button
             key={gameId}
             onClick={() => setSelectedGame(gameId)}
@@ -172,7 +171,17 @@ export default function Leaderboard({ currentUsername, onResetFinished }: Leader
             }`}
             id={`tab-game-${gameId}`}
           >
-            <span>{gameId === 'snake' ? '🐍' : gameId === 'game2048' ? '🔳' : '🃏'}</span>
+            <span>
+              {gameId === 'snake'
+                ? '🐍'
+                : gameId === 'game2048'
+                ? '🔳'
+                : gameId === 'memory'
+                ? '🃏'
+                : gameId === 'minesweeper'
+                ? '💣'
+                : '🕷️'}
+            </span>
             {GAME_NAMES[gameId]}
           </button>
         ))}
@@ -326,7 +335,17 @@ export default function Leaderboard({ currentUsername, onResetFinished }: Leader
                       {selectedGame === 'all' && (
                         <td className="py-3.5 px-4">
                           <span className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full border ${colors.bg} ${colors.text} ${colors.border}`}>
-                            <span>{entry.gameId === 'snake' ? '🐍' : entry.gameId === 'game2048' ? '🔳' : '🃏'}</span>
+                            <span>
+                              {entry.gameId === 'snake'
+                                ? '🐍'
+                                : entry.gameId === 'game2048'
+                                ? '🔳'
+                                : entry.gameId === 'memory'
+                                ? '🃏'
+                                : entry.gameId === 'minesweeper'
+                                ? '💣'
+                                : '🕷️'}
+                            </span>
                             {GAME_NAMES[entry.gameId]}
                           </span>
                         </td>

@@ -11,6 +11,8 @@ import Leaderboard from './components/Leaderboard';
 import SnakeGame from './components/SnakeGame';
 import Game2048 from './components/Game2048';
 import MemoryMatch from './components/MemoryMatch';
+import Minesweeper from './components/Minesweeper';
+import SpiderSolitaire from './components/SpiderSolitaire';
 import { PlayerProfile, GameType } from './types';
 import { getHighScore } from './utils/leaderboardHelper';
 import { playSound } from './utils/audio';
@@ -37,11 +39,15 @@ export default function App() {
   const [snakeHighScore, setSnakeHighScore] = useState(0);
   const [game2048HighScore, setGame2048HighScore] = useState(0);
   const [memoryHighScore, setMemoryHighScore] = useState(0);
+  const [minesweeperHighScore, setMinesweeperHighScore] = useState(0);
+  const [spiderHighScore, setSpiderHighScore] = useState(0);
 
   const loadAllHighScores = () => {
     setSnakeHighScore(getHighScore('snake', profile.username));
     setGame2048HighScore(getHighScore('game2048', profile.username));
     setMemoryHighScore(getHighScore('memory', profile.username));
+    setMinesweeperHighScore(getHighScore('minesweeper', profile.username));
+    setSpiderHighScore(getHighScore('spider', profile.username));
   };
 
   // Sync profile to localStorage
@@ -125,7 +131,7 @@ export default function App() {
                 </div>
 
                 {/* Game Cards Layout */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 pt-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pt-4">
                   
                   {/* Card: Snake Game */}
                   <motion.div
@@ -259,6 +265,94 @@ export default function App() {
                     </button>
                   </motion.div>
 
+                  {/* Card: Minesweeper */}
+                  <motion.div
+                    whileHover={{ y: -6 }}
+                    className="group bg-slate-900/60 rounded-3xl border border-slate-800/80 hover:border-rose-500/40 p-6 flex flex-col justify-between shadow-lg hover:shadow-[0_0_30px_rgba(244,63,94,0.1)] transition-all duration-300 relative overflow-hidden"
+                    id="game-card-minesweeper"
+                  >
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 blur-2xl pointer-events-none group-hover:bg-rose-500/10 transition-colors" />
+                    
+                    <div>
+                      {/* Badge / Stats */}
+                      <div className="flex justify-between items-start mb-4">
+                        <span className="text-3xl p-3 bg-rose-500/10 border border-rose-500/20 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                          💣
+                        </span>
+                        {minesweeperHighScore > 0 ? (
+                          <div className="text-right">
+                            <p className="text-[10px] font-mono text-slate-500">MY RECORD</p>
+                            <p className="text-sm font-black font-mono text-rose-400">{minesweeperHighScore}</p>
+                          </div>
+                        ) : (
+                          <span className="text-[10px] font-mono text-slate-500 border border-slate-800 px-2 py-1 rounded-full bg-slate-950/40">
+                            未挑战
+                          </span>
+                        )}
+                      </div>
+
+                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-rose-400 transition-colors">
+                        经典扫雷
+                      </h3>
+                      <p className="text-xs text-slate-400 leading-relaxed mb-6">
+                        怀旧而紧张的地雷排查游戏！找出所有地雷而不将其引爆，考验你严密的逻辑推理与敏锐的判断。
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => handleSelectGame('minesweeper')}
+                      className="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-400 hover:to-pink-500 text-slate-950 font-black py-3 px-4 rounded-2xl shadow-[0_4px_12px_rgba(244,63,94,0.2)] hover:shadow-[0_6px_20px_rgba(244,63,94,0.35)] transition-all duration-300 flex items-center justify-center gap-1.5 text-xs tracking-wider"
+                      id="play-minesweeper-btn"
+                    >
+                      <Gamepad2 className="w-4 h-4" />
+                      开始排雷挑战
+                    </button>
+                  </motion.div>
+
+                  {/* Card: Spider Solitaire */}
+                  <motion.div
+                    whileHover={{ y: -6 }}
+                    className="group bg-slate-900/60 rounded-3xl border border-slate-800/80 hover:border-indigo-500/40 p-6 flex flex-col justify-between shadow-lg hover:shadow-[0_0_30px_rgba(99,102,241,0.1)] transition-all duration-300 relative overflow-hidden"
+                    id="game-card-spider"
+                  >
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-500/5 blur-2xl pointer-events-none group-hover:bg-indigo-500/10 transition-colors" />
+                    
+                    <div>
+                      {/* Badge / Stats */}
+                      <div className="flex justify-between items-start mb-4">
+                        <span className="text-3xl p-3 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                          🕷️
+                        </span>
+                        {spiderHighScore > 0 ? (
+                          <div className="text-right">
+                            <p className="text-[10px] font-mono text-slate-500">MY RECORD</p>
+                            <p className="text-sm font-black font-mono text-indigo-400">{spiderHighScore}</p>
+                          </div>
+                        ) : (
+                          <span className="text-[10px] font-mono text-slate-500 border border-slate-800 px-2 py-1 rounded-full bg-slate-950/40">
+                            未挑战
+                          </span>
+                        )}
+                      </div>
+
+                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
+                        蜘蛛纸牌
+                      </h3>
+                      <p className="text-xs text-slate-400 leading-relaxed mb-6">
+                        经典的单人纸牌排雷大作！按降序花色对齐叠放，把它们理顺成为成套的黑桃牌堆进行消除。
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => handleSelectGame('spider')}
+                      className="w-full bg-gradient-to-r from-indigo-500 to-cyan-600 hover:from-indigo-400 hover:to-cyan-500 text-slate-950 font-black py-3 px-4 rounded-2xl shadow-[0_4px_12px_rgba(99,102,241,0.2)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.35)] transition-all duration-300 flex items-center justify-center gap-1.5 text-xs tracking-wider"
+                      id="play-spider-btn"
+                    >
+                      <Gamepad2 className="w-4 h-4" />
+                      开始纸牌对决
+                    </button>
+                  </motion.div>
+
                 </div>
               </motion.div>
             ) : (
@@ -306,6 +400,20 @@ export default function App() {
                   )}
                   {activeGame === 'memory' && (
                     <MemoryMatch
+                      username={profile.username}
+                      soundEnabled={soundEnabled}
+                      onScoreSubmitted={loadAllHighScores}
+                    />
+                  )}
+                  {activeGame === 'minesweeper' && (
+                    <Minesweeper
+                      username={profile.username}
+                      soundEnabled={soundEnabled}
+                      onScoreSubmitted={loadAllHighScores}
+                    />
+                  )}
+                  {activeGame === 'spider' && (
+                    <SpiderSolitaire
                       username={profile.username}
                       soundEnabled={soundEnabled}
                       onScoreSubmitted={loadAllHighScores}

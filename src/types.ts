@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type GameType = 'snake' | 'game2048' | 'memory';
+export type GameType = 'snake' | 'game2048' | 'memory' | 'minesweeper' | 'spider';
 
 export interface LeaderboardEntry {
   id: string;
