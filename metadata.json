@@ -1,0 +1,6 @@
+{
+  "name": "Mini-Game Arcade",
+  "description": "A beautiful, responsive web arcade featuring three polished mini-games (Snake, 2048, and Memory Match) with a persistent local leaderboard system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
